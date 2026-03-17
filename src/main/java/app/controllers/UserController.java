@@ -1,14 +1,12 @@
 package app.controllers;
 
-import app.entities.Post;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
+import app.services.Validator;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-
-import java.util.List;
 
 public class UserController {
 
@@ -20,17 +18,25 @@ public class UserController {
         app.get("/logout", ctx -> logout(ctx));
     }
 
-        public static void registrerBruger(Context ctx, ConnectionPool connectionPool) {
+    public static void registrerBruger(Context ctx, ConnectionPool connectionPool) {
         String username = ctx.formParam("username");
         String password = ctx.formParam("password");
-        try {
-            UserMapper.createuser(username, password, connectionPool);
-            //ctx.render("index.html");
-            // Better solution:
-            ctx.redirect("/");
-        } catch (DatabaseException e) {
-            ctx.attribute("msg", e.getMessage());
+        // validering
+        String message = Validator.validateUser(username, password);
+        if (message == null) {
+            try {
+                UserMapper.createuser(username, password, connectionPool);
+                //ctx.render("index.html");
+                // Better solution:
+                ctx.redirect("/");
+            } catch (DatabaseException e) {
+                ctx.attribute("msg", e.getMessage());
+                ctx.render("registrerbruger.html");
+            }
+        } else {
+            ctx.attribute("msg", message);
             ctx.render("registrerbruger.html");
+
         }
     }
 
@@ -51,4 +57,11 @@ public class UserController {
         ctx.req().getSession().invalidate();
         ctx.redirect("/");
     }
+
+    /*
+    public static String validate(String username, String password) {
+        if (username.isBlank() || username == null) {
+            return "Brugernavn skal udfyldes";
+        } else return null;
+    }*/
 }
