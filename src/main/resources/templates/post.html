@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<title>Frontpage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<h1>Message Board</h1>
+
+
+<h3>Table med data</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Titel</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="post : ${postList}">
+        <td>
+            <img th:src="@{/images/{img}(img=${post.image})}" width="60" alt="img"/>
+        </td>
+        <td th:text="${post.title}"></td>
+        <td>
+            <a th:href="@{/posts/{id}(id=${post.post_id})}"> Se detaljer</a>
+            <form method="post" th:action="@{/posts/{id}/delete(id=${post.post_id})}">
+                <button type = "submit">Slet</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

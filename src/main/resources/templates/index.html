@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<title>Frontpage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<h1 th:if="${session.currentUser}">
+    Velkommen <span th:text="${session.currentUser.username}"></span>
+</h1>
+
+<h1 th:unless="${session.currentUser}">
+    Velkommen gæst
+</h1>
+
+<!-- Alternativ if-else syntax
+<h1 th:text="${session.currentUser} ?
+              'Velkommen ' + ${session.currentUser.username} :
+              'Velkommen gæst'">
+</h1> -->
+
+<p th:text="${msg}"></p>
+
+<p><a href="/opretbruger">Opret bruger</a></p>
+<p>
+    <a th:unless="${session.currentUser}" href="/login">Login</a>
+    <a th:if="${session.currentUser}" href="/logout">Logout</a>
+</p>
+</body>
+</html>

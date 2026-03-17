@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+</head>
+<body>
+<h1>Post</h1>
+
+<p th:text="${post.title}"></p>
+
+<img th:src="@{/images/{img}(img=${post.image})}" width="300">
+
+<p>
+    <a th:href="@{/posts}">Tilbage til liste</a>
+</p>
+</body>
+</html>
