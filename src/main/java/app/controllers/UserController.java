@@ -25,9 +25,9 @@ public class UserController {
         String password = ctx.formParam("password");
         try {
             UserMapper.createuser(username, password, connectionPool);
-            ctx.render("index.html");
+            //ctx.render("index.html");
             // Better solution:
-            //ctx.redirect("/");
+            ctx.redirect("/");
         } catch (DatabaseException e) {
             ctx.attribute("msg", e.getMessage());
             ctx.render("registrerbruger.html");
